@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4ef">
+  <title>{% block title %}Sổ lưu bút{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="page-shell">
+    <nav class="site-nav" aria-label="Điều hướng chính">
+      <a class="brand" href="{{ url_for('guestbook.index') }}">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span>lưu bút<span class="brand-period">.</span></span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link {% if request.endpoint == 'guestbook.index' %}is-active{% endif %}" href="{{ url_for('guestbook.index') }}">Trang chủ</a>
+        <a class="nav-link {% if request.endpoint == 'stats.stats' %}is-active{% endif %}" href="{{ url_for('stats.stats') }}">Thống kê</a>
+        <a class="nav-cta" href="{{ url_for('guestbook.add') }}"><span aria-hidden="true">＋</span> Viết lời nhắn</a>
+      </div>
+    </nav>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+      <span>Được viết bằng một chút yêu thương <span class="footer-heart">♥</span></span>
+      <span>Mỗi lời nhắn được lưu trong sổ lưu bút của chúng ta.</span>
+    </footer>
+  </div>
+</body>
+</html>

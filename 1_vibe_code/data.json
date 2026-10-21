@@ -2,16 +2,99 @@
   {
     "id": 1,
     "name": "Nguyễn Trung Sơn",
-    "message": "aaaaaa"
+    "message": "Chào mọi người! Mình là Sơn, rất vui được ghé thăm trang này 😊",
+    "color": "#6366f1",
+    "ts": "21/10/2025 09:00",
+    "reactions": {
+      "❤️": 3,
+      "🔥": 1,
+      "😂": 1,
+      "👏": 2,
+      "🎉": 1
+    }
   },
   {
     "id": 2,
-    "name": "http://127.0.0.1:5000",
-    "message": "sssss"
+    "name": "Minh Anh",
+    "message": "Trang web thật dễ thương! Mình sẽ để lại lời chúc tốt đẹp nhất cho mọi người nhé 🌸",
+    "color": "#ec4899",
+    "ts": "21/10/2025 10:30",
+    "reactions": {
+      "❤️": 5,
+      "🔥": 2,
+      "😂": 1,
+      "👏": 3,
+      "🎉": 4
+    }
   },
   {
     "id": 3,
-    "name": "aa",
-    "message": "sss"
+    "name": "Hoàng Phúc",
+    "message": "Góc nhỏ này ấm áp quá! Mình sẽ quay lại thường xuyên để đọc lời nhắn của mọi người 🙌",
+    "color": "#22c55e",
+    "ts": "21/10/2025 14:00",
+    "reactions": {
+      "❤️": 2,
+      "🔥": 3,
+      "😂": 0,
+      "👏": 1,
+      "🎉": 2
+    }
+  },
+  {
+    "id": 4,
+    "name": "Nguyễn Trung Sơn",
+    "message": "Tôi là sơn chào mọi người",
+    "color": "#6366f1",
+    "ts": "21/10/2026 09:43",
+    "reactions": {
+      "❤️": 1,
+      "🔥": 1,
+      "😂": 0,
+      "👏": 1,
+      "🎉": 0
+    }
+  },
+  {
+    "id": 5,
+    "name": "Phan Minh Quân",
+    "message": "chào mọi người",
+    "color": "#8b5cf6",
+    "ts": "21/10/2026 09:44",
+    "reactions": {
+      "❤️": 0,
+      "🔥": 0,
+      "😂": 1,
+      "👏": 1,
+      "🎉": 0
+    }
+  },
+  {
+    "id": 6,
+    "name": "Nguyễn Trung Sơn",
+    "message": "tôi đây",
+    "color": "#6366f1",
+    "ts": "21/10/2026 09:46",
+    "reactions": {
+      "❤️": 0,
+      "🔥": 1,
+      "😂": 1,
+      "👏": 0,
+      "🎉": 1
+    }
+  },
+  {
+    "id": 7,
+    "name": "Phan Minh Quân",
+    "message": "web trông hay thế",
+    "color": "#8b5cf6",
+    "ts": "21/10/2026 09:47",
+    "reactions": {
+      "❤️": 0,
+      "🔥": 0,
+      "😂": 0,
+      "👏": 0,
+      "🎉": 1
+    }
   }
 ]

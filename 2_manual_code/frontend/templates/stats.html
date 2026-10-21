@@ -1,9 +1,42 @@
-<!doctype html>
-<html lang="vi">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Thống kê · Sổ lưu bút</title></head>
-<body><main class="shell"><header><p class="eyebrow">GUESTBOOK · THỐNG KÊ</p><h1>Những con số nhỏ</h1><p class="intro">Tổng quan lời nhắn và người gửi.</p></header>
-  <section class="panel"><h2>Tổng số lời nhắn</h2><p class="stat-number">{{ total }}</p></section>
-  <section class="panel chart-panel"><h2>Số lời nhắn theo người gửi</h2><img class="chart" src="{{ url_for('static', filename='stats.png') }}?v={{ total }}" alt="Biểu đồ cột số lời nhắn theo người gửi"></section>
-  <section class="panel"><h2>5 người gửi nhiều lời nhắn nhất</h2>{% if top_senders %}<ol class="top-list">{% for name, count in top_senders %}<li><span>{{ name }}</span><strong>{{ count }}</strong></li>{% endfor %}</ol>{% else %}<p class="muted">Chưa có dữ liệu.</p>{% endif %}</section>
-  <p><a class="text-link" href="{{ url_for('guestbook.index') }}">← Trở về sổ lưu bút</a></p>
-</main></body></html>
+{% extends "base.html" %}
+
+{% block title %}Thống kê · Sổ lưu bút{% endblock %}
+
+{% block content %}
+<section class="stats-hero">
+  <p class="eyebrow"><span class="eyebrow-dot"></span> MỘT CHÚT NHÌN LẠI</p>
+  <h1>Những lời nhắn<br><span>đã kết nối chúng ta.</span></h1>
+  <p class="hero-description">Mỗi con số đều là một lần ai đó chọn chia sẻ điều gì đó với mọi người.</p>
+</section>
+
+<section class="stats-grid" aria-label="Thống kê sổ lưu bút">
+  <article class="stat-card stat-highlight">
+    <div class="stat-card-top"><span>TỔNG LỜI NHẮN</span><span class="stat-icon" aria-hidden="true">✉</span></div>
+    <p class="stat-number">{{ total }}</p>
+    <span class="stat-caption">lời nhắn đã được gửi</span>
+    <div class="stat-decoration" aria-hidden="true">✳</div>
+  </article>
+  <article class="stat-card ranking-card">
+    <div class="stat-card-top"><span>NGƯỜI GỬI NỔI BẬT</span><span class="stat-icon muted-icon" aria-hidden="true">✦</span></div>
+    {% if top_senders %}
+    <ol class="top-list">
+      {% for name, count in top_senders %}
+      <li><span class="rank-number">{{ "%02d"|format(loop.index) }}</span><span class="rank-name">{{ name }}</span><strong>{{ count }} <small>lời nhắn</small></strong></li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <div class="stats-empty"><span aria-hidden="true">☁</span><p>Chưa có dữ liệu. Lời nhắn đầu tiên có thể là của bạn!</p></div>
+    {% endif %}
+  </article>
+</section>
+
+<section class="chart-card">
+  <div class="chart-heading">
+    <div><p class="eyebrow">MỌI NGƯỜI ĐANG CHIA SẺ</p><h2>Lời nhắn theo người gửi</h2></div>
+    <span class="chart-tag">TẤT CẢ THỜI GIAN</span>
+  </div>
+  <div class="chart-frame">
+    <img class="chart" src="{{ url_for('static', filename='stats.png') }}?v={{ total }}" alt="Biểu đồ số lời nhắn theo từng người gửi">
+  </div>
+</section>
+{% endblock %}

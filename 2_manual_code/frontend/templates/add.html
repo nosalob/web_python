@@ -1,7 +1,46 @@
-<!doctype html>
-<html lang="vi">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Viết lời nhắn · Sổ lưu bút</title></head>
-<body><main class="shell"><header><p class="eyebrow">GUESTBOOK · LỜI NHẮN TỪ BẠN</p><h1>Viết lời nhắn</h1><p class="intro">Chia sẻ vài dòng với mọi người.</p></header>
-  <section class="panel">{% if error %}<p class="notice error">{{ error }}</p>{% endif %}<form action="{{ url_for('guestbook.add') }}" method="post"><label for="name">Tên của bạn</label><input id="name" name="name" value="{{ name|default('') }}" placeholder="Ví dụ: Linh"><label for="message">Lời nhắn</label><textarea id="message" name="message" rows="4" placeholder="Bạn muốn chia sẻ điều gì?">{{ message|default('') }}</textarea><button type="submit">Gửi lời nhắn <span>↗</span></button></form></section>
-  <p><a class="text-link" href="{{ url_for('guestbook.index') }}">← Trở về sổ lưu bút</a></p>
-</main></body></html>
+{% extends "base.html" %}
+
+{% block title %}Viết lời nhắn · Sổ lưu bút{% endblock %}
+
+{% block content %}
+<section class="form-layout">
+  <div class="form-intro">
+    <p class="eyebrow"><span class="eyebrow-dot"></span> ĐẾN LƯỢT BẠN</p>
+    <h1>Một lời nhắn<br><span>có thể làm nên ngày vui.</span></h1>
+    <p class="hero-description">Không cần thật dài hay thật hay. Chỉ cần là điều bạn muốn gửi đến mọi người.</p>
+    <div class="form-note"><span aria-hidden="true">✦</span><p>Lời nhắn của bạn sẽ được lưu trên thiết bị này và xuất hiện trong sổ lưu bút.</p></div>
+  </div>
+
+  <section class="form-card" aria-labelledby="form-title">
+    <div class="form-card-heading">
+      <span class="form-step">01 <i>/ 01</i></span>
+      <h2 id="form-title">Soạn lời nhắn</h2>
+      <p>Điền một chút thông tin bên dưới nhé.</p>
+    </div>
+    {% if error %}<p class="notice error" role="alert"><span aria-hidden="true">!</span>{{ error }}</p>{% endif %}
+    <form class="message-form" action="{{ url_for('guestbook.add') }}" method="post">
+      <div class="field">
+        <label for="name">Tên của bạn <span>*</span></label>
+        <input id="name" name="name" value="{{ name|default('') }}" maxlength="80" placeholder="Ví dụ: Minh Anh" autocomplete="name" required>
+        <small>Tối đa 80 ký tự.</small>
+      </div>
+      <div class="field">
+        <div class="label-row"><label for="message">Lời nhắn <span>*</span></label><small id="message-count">0 / 1000</small></div>
+        <textarea id="message" name="message" rows="6" maxlength="1000" placeholder="Bạn muốn chia sẻ điều gì hôm nay?" required>{{ message|default('') }}</textarea>
+        <small>Hãy viết điều bạn muốn mọi người cùng đọc.</small>
+      </div>
+      <button class="button button-primary submit-button" type="submit">Gửi lời nhắn <span aria-hidden="true">↗</span></button>
+    </form>
+    <a class="back-link" href="{{ url_for('guestbook.index') }}"><span aria-hidden="true">←</span> Quay lại sổ lưu bút</a>
+  </section>
+</section>
+<script>
+  const messageField = document.getElementById("message");
+  const messageCount = document.getElementById("message-count");
+  function updateMessageCount() {
+    messageCount.textContent = `${messageField.value.length} / 1000`;
+  }
+  messageField.addEventListener("input", updateMessageCount);
+  updateMessageCount();
+</script>
+{% endblock %}

@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Phan Gia Huy",
+    "message": "fajdalkh;a;fha;hadf"
+  },
+  {
+    "id": 2,
+    "name": "Sơn",
+    "message": "chào bạn"
+  },
+  {
+    "id": 3,
+    "name": "huy",
+    "message": "chào bạn nhé"
+  }
+]

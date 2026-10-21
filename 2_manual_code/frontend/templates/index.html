@@ -1,10 +1,105 @@
-<!doctype html>
-<html lang="vi">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sổ lưu bút</title></head>
-<body><main class="shell">
-  <header><p class="eyebrow">GUESTBOOK · LỜI NHẮN TỪ BẠN</p><h1>Để lại một lời chào 👋</h1><p class="intro">Mỗi lời nhắn nhỏ làm nơi này thêm vui.</p></header>
-  <nav><a class="link-button" href="{{ url_for('guestbook.add') }}">＋ Viết lời nhắn</a><a class="text-link" href="{{ url_for('stats.stats') }}">Xem thống kê →</a></nav>
-  <section class="messages"><div class="section-title"><h2>Tất cả lời nhắn</h2><span>{{ entries|length }} lời nhắn</span></div>
-  {% if entries %}{% for entry in entries|reverse %}<article class="entry"><div class="entry-top"><div class="avatar">{{ entry.name[0]|upper }}</div><div class="byline"><strong>{{ entry.name }}</strong><small>ID: {{ entry.id }}</small></div><form action="{{ url_for('guestbook.delete', id=entry.id) }}" method="post" onsubmit="return confirm('Xóa lời nhắn này?')"><button class="delete" type="submit">Xóa</button></form></div><p class="entry-message">{{ entry.message }}</p></article>{% endfor %}{% else %}<div class="empty">Chưa có lời nhắn nào. Hãy là người đầu tiên nhé!</div>{% endif %}
-  </section><footer>Dữ liệu được lưu trong data.json.</footer>
-</main></body></html>
+{% extends "base.html" %}
+
+{% block title %}Sổ lưu bút · Nơi gửi lời thương{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-dot"></span> MỘT GÓC NHỎ ĐỂ KẾT NỐI</p>
+    <h1>Lời hay ý đẹp,<br><span>lưu lại nơi đây.</span></h1>
+    <p class="hero-description">Chia sẻ một lời chào, một kỷ niệm hay điều bạn muốn gửi gắm. Mỗi lời nhắn đều làm góc nhỏ này thêm ấm áp.</p>
+    <a class="button button-primary" href="{{ url_for('guestbook.add') }}">Gửi lời nhắn <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="art-orbit orbit-one"></div>
+    <div class="art-orbit orbit-two"></div>
+    <div class="art-note note-back"><span>Gửi bạn,</span><i>☀</i></div>
+    <div class="art-note note-front"><span>Chúc một ngày<br>thật dịu dàng.</span><b>— từ một người bạn</b></div>
+    <span class="art-spark spark-one">✳</span>
+    <span class="art-spark spark-two">✦</span>
+  </div>
+</section>
+
+<section class="guestbook-section" aria-labelledby="guestbook-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">GÓC LỜI NHẮN</p>
+      <h2 id="guestbook-title">Những điều được gửi lại</h2>
+    </div>
+    <div class="message-total"><span class="total-number">{{ entries|length }}</span><span>lời nhắn<br>được chia sẻ</span></div>
+  </div>
+
+  {% if entries %}
+  <div class="toolbar">
+    <label class="search-box" for="entry-search">
+      <span aria-hidden="true">⌕</span>
+      <input id="entry-search" type="search" placeholder="Tìm tên hoặc nội dung..." autocomplete="off">
+      <kbd>/</kbd>
+    </label>
+    <span class="result-count" id="result-count" aria-live="polite">{{ entries|length }} lời nhắn</span>
+  </div>
+  <div class="entry-grid" id="entry-grid">
+    {% for entry in entries|reverse %}
+    <article class="entry-card" data-search="{{ (entry.name ~ ' ' ~ entry.message)|lower }}">
+      <div class="entry-card-top">
+        <div class="avatar avatar-{{ loop.index0 % 5 }}">{{ entry.name[0]|upper }}</div>
+        <div class="entry-author">
+          <strong>{{ entry.name }}</strong>
+          <span>Lời nhắn #{{ entry.id }}</span>
+        </div>
+        <span class="entry-decoration" aria-hidden="true">{% if loop.index0 % 3 == 0 %}✳{% elif loop.index0 % 3 == 1 %}✦{% else %}✿{% endif %}</span>
+      </div>
+      <p class="entry-message">{{ entry.message }}</p>
+      <div class="entry-card-footer">
+        <span class="message-label"><span></span> Lời nhắn</span>
+        <form action="{{ url_for('guestbook.delete', id=entry.id) }}" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa lời nhắn này?')">
+          <button class="delete-button" type="submit" aria-label="Xóa lời nhắn của {{ entry.name }}">Xóa <span aria-hidden="true">×</span></button>
+        </form>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  <div class="empty-state search-empty" id="search-empty" hidden>
+    <div class="empty-icon">⌕</div>
+    <h3>Chưa tìm thấy lời nhắn</h3>
+    <p>Thử tìm bằng tên khác hoặc một từ khóa ngắn hơn nhé.</p>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">✉</div>
+    <h3>Trang giấy vẫn đang chờ</h3>
+    <p>Hãy là người đầu tiên gửi một lời nhắn thật dễ thương.</p>
+    <a class="button button-primary" href="{{ url_for('guestbook.add') }}">Viết lời nhắn đầu tiên <span aria-hidden="true">↗</span></a>
+  </div>
+  {% endif %}
+</section>
+
+{% if entries %}
+<script>
+  const searchInput = document.getElementById("entry-search");
+  const cards = [...document.querySelectorAll(".entry-card")];
+  const resultCount = document.getElementById("result-count");
+  const searchEmpty = document.getElementById("search-empty");
+
+  function filterEntries() {
+    const query = searchInput.value.trim().toLocaleLowerCase("vi");
+    let visible = 0;
+    cards.forEach((card) => {
+      const matches = card.dataset.search.includes(query);
+      card.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    resultCount.textContent = `${visible} lời nhắn`;
+    searchEmpty.hidden = visible !== 0;
+  }
+
+  searchInput.addEventListener("input", filterEntries);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "/" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
+      event.preventDefault();
+      searchInput.focus();
+    }
+  });
+</script>
+{% endif %}
+{% endblock %}
